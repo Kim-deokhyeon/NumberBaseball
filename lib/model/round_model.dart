@@ -12,29 +12,27 @@ class Round {
     return _times;
   }
 
-  int getStrikeCount() {
-    int strikeCount = 0;
-    for (int i = 0; i < _answer.getAnswer().length; i++) {
-      // _answer
-    }
-    return strikeCount;
-  }
-
-  int getBallCount() {
-    int ballCount = 0;
-    return ballCount;
-  }
-
-  bool isStrikeAll() {
-    if (getStrikeCount() == 3) {
+  bool checkEnd() {
+    if (_times == 10) {
       return true;
     }
 
     return false;
   }
 
-  @override
-  String toString() {
-    return 'ballCount : ';
+  Answer getAnswer() {
+    return _answer;
+  }
+
+  UserInput getInput() {
+    return _userInput;
+  }
+
+  Round copyWith({
+    int? times,
+    Answer? answer,
+    UserInput? userInput,
+  }) {
+    return Round(times ?? _times, answer ?? _answer, userInput ?? _userInput);
   }
 }
