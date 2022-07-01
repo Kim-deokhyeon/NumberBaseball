@@ -1,23 +1,50 @@
+// Result의 호출부에서 try catch를 걸자 - GDD
+
 class Result {
-  Result(this.strike, this.ball);
+  Result({required this.strike, required this.ball});
 
   final int strike;
   final int ball;
 
+  bool checkWin() {
+    if (strike == 3) {
+      return true;
+    }
+
+    return false;
+  }
+
   @override
   String toString() {
-    try {
-      if (strike + ball > 3) {
-        throw Exception();
-      }
-    } catch (error) {
-      return 'error';
+    if (strike == 3) {
+      return 'win!';
     }
 
     if (strike == 0 && ball == 0) {
       return 'nothing';
     }
 
+    if (strike == 0 && ball != 0) {
+      return 'ball : $ball';
+    }
+
+    if (strike != 0 && ball == 0) {
+      return 'strike : $strike';
+    }
+
     return 'strike : $strike\nball : $ball';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is Result && strike == other.strike && ball == other.ball);
+  }
+
+  @override
+  int get hashCode => strike.hashCode ^ ball.hashCode;
 }
+
+//  test('숫자 0 대입 => throw FormatException("1-9 사이의 숫자만 입력해주세요.\n")', () {
+//       expect(() => inputParser.parseToMaxInning('0'), throwsFormatException);
+//     });
