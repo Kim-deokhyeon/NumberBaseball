@@ -25,7 +25,7 @@ class Answer {
     return _answerList;
   }
 
-  bool isDuplicated() {
+  bool isUnique() {
     if (_answerList.toSet().toList().length != 3) {
       return true;
     }

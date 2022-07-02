@@ -8,7 +8,7 @@ class Round {
   final Answer _answer;
   final UserInput _userInput;
 
-  int getRound() {
+  int getNow() {
     return _times;
   }
 

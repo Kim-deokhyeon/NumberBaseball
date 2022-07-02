@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:number_base_ball/model/user_input_model.dart';
+
 class GameView {
   const GameView();
 
@@ -36,8 +38,8 @@ class GameView {
     stdout.writeln('종료를 원하시면 \'Y\'을 입력해주세요!');
   }
 
-  void showInputErrorMessage() {
-    stdout.writeln('입력이 잘못된 것 같아요!');
+  void showInputExceptionMessage(UserInputException exception) {
+    stdout.writeln(exception);
     stdout.writeln('게임을 종료합니다..');
   }
 

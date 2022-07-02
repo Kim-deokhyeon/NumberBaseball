@@ -39,6 +39,9 @@ class GameController {
     } on Error catch (error) {
       maybeErrorWithGame(error);
       return null; // deadCode의 느낌,, error 처리 메서드에 강제 종료 들어가있음
+    } on UserInputException catch (inputException) {
+      maybeExceptionWithInput(inputException);
+      return null; // deadCode의 느낌,, error 처리 메서드에 강제 종료 들어가있음
     }
   }
 
@@ -53,9 +56,15 @@ class GameController {
     playGame();
   }
 
+  maybeExceptionWithInput(UserInputException exception) {
+    view.showInputExceptionMessage(exception);
+    exit(0);
+  }
+
   maybeErrorWithGame(Error? error) {
     log(error?.toString() ?? '');
-    view.showInputErrorMessage();
+    // TODO : 다른 error나 exception 상황이 있을지 생각해보기
+    // view.showInputErrorMessage();
     exit(0);
   }
 
