@@ -4,11 +4,12 @@ import 'package:number_base_ball/model/round_model.dart';
 import 'package:number_base_ball/model/user_input_model.dart';
 
 class Referee {
-  Referee();
+  Referee(this.responsibleRound);
+  final Round responsibleRound;
 
-  Result judge(Round round) {
-    Answer answer = round.getAnswer();
-    UserInput userInput = round.getInput();
+  Result judge() {
+    Answer answer = responsibleRound.getAnswer();
+    UserInput userInput = responsibleRound.getInput();
 
     int strikeCount = _getStrikeCount(answer, userInput);
     int ballCount = _getBallCount(answer, userInput);
@@ -21,7 +22,7 @@ class Referee {
     List<int> userInputList = userInput.getInput();
 
     for (int i = 0; i < userInputList.length; i++) {
-      if (answer.isBall(userInputList[i], i)) {
+      if (answer.checkBall(userInputList[i], i)) {
         ballCount++;
       }
     }
@@ -33,10 +34,16 @@ class Referee {
     List<int> userInputList = userInput.getInput();
 
     for (int i = 0; i < userInputList.length; i++) {
-      if (answer.isStrike(userInputList[i], i)) {
+      if (answer.checkStrike(userInputList[i], i)) {
         strikeCount++;
       }
     }
     return strikeCount;
+  }
+
+  Referee copyWith({
+    Round? responsibleRound,
+  }) {
+    return Referee(responsibleRound ?? this.responsibleRound);
   }
 }

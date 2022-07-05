@@ -13,7 +13,9 @@ import '../model/answer_test.dart';
 
 void main() {
   GameController gameController = GameController(const GameView());
-  Answer answer = gameController.createAnswer();
+
+  gameController.createAnswer();
+  Answer answer = gameController.answer;
 
   answerTest(answerCreateByGameController: answer);
 }

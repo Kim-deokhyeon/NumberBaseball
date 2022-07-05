@@ -14,6 +14,13 @@ class Result {
     return false;
   }
 
+  bool checkExceedValidValue() {
+    if (strike + ball > 3) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   String toString() {
     if (strike == 3) {
@@ -44,7 +51,3 @@ class Result {
   @override
   int get hashCode => strike.hashCode ^ ball.hashCode;
 }
-
-//  test('숫자 0 대입 => throw FormatException("1-9 사이의 숫자만 입력해주세요.\n")', () {
-//       expect(() => inputParser.parseToMaxInning('0'), throwsFormatException);
-//     });

@@ -10,25 +10,21 @@ import 'package:number_base_ball/model/user_input_model.dart';
 import 'package:number_base_ball/view/game_view.dart';
 
 class GameController {
-  GameController(this.view);
-  static const maxInning = app_const.maxInning;
-  int tempRound = 0;
-
-  final GameView view;
+  GameController(this.gameConsole);
+  final GameView gameConsole;
   late Answer answer;
-  Referee referee = Referee();
 
-  Answer createAnswer() {
+  void createAnswer() {
     List<int> shuffledList = [...app_const.availableAnswers];
     shuffledList.shuffle();
 
     List<int> createdAnswer = shuffledList.sublist(0, 3);
 
-    return Answer(initAnswer: createdAnswer);
+    answer = Answer(initAnswer: createdAnswer);
   }
 
   UserInput? readUserInput() {
-    view.showInputAnnounceMessage();
+    gameConsole.showInputAnnounceMessage();
     try {
       List<int> oneLine3Input = (stdin.readLineSync() ?? '')
           .split(' ')
@@ -50,14 +46,17 @@ class GameController {
   // }
 
   initGame() {
-    view.showGameInit();
-    answer = createAnswer();
+    gameConsole.showGameInit();
+    runGame();
+  }
 
+  runGame() {
+    createAnswer();
     playGame();
   }
 
   maybeExceptionWithInput(UserInputException exception) {
-    view.showInputExceptionMessage(exception);
+    gameConsole.showInputExceptionMessage(exception);
     exit(0);
   }
 
@@ -68,34 +67,24 @@ class GameController {
     exit(0);
   }
 
-  endGameWithUserWin() {
-    view.showWinnerMessage();
-  }
-
-  endGameWithUserLose() {
-    view.showLoserMessage(answer.toString());
-  }
-
   checkMoreGame() {
-    view.showAskMoreGameMeesage();
+    gameConsole.showAskMoreGameMeesage();
     bool noMoreGame = (stdin.readLineSync() ?? 'Y') == 'Y';
     if (noMoreGame) {
-      view.showGameOver();
+      gameConsole.showGameOver();
       exit(0);
     }
 
-    answer = createAnswer();
-
-    playGame();
+    runGame();
   }
 
   playGame() {
-    for (int i = 0; i <= maxInning; i++) {
-      if (i == maxInning) {
+    for (int i = 0; i <= app_const.maxInning; i++) {
+      if (i == app_const.maxInning) {
         // 9회가 초과 된 시점
         // 굳이 9를 안넘겨도 될 것 같긴한데
         // 이기건 지건, 이후의 문장을 공통으로 쓰고 싶음
-        endGameWithUserLose();
+        gameConsole.showLoserMessage(answer.toString());
         break;
       }
 
@@ -103,10 +92,12 @@ class GameController {
       // 더 우아하게 try, catch를 할 순 없을까
       UserInput userInput = readUserInput()!;
       Round round = Round(i + 1, answer, userInput);
-      Result result = referee.judge(round);
-      view.showRoundResult(result.toString());
+      Referee referee = Referee(round);
+      Result result = referee.judge();
+      gameConsole.showRoundResult(result.toString());
       if (result.checkWin()) {
-        endGameWithUserWin();
+        gameConsole.showWinnerMessage();
+
         break;
       }
     }

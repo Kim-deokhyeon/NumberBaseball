@@ -5,7 +5,7 @@ class Answer {
 
   List<int> _answerList = [];
 
-  bool isBall(int number, int index) {
+  bool checkBall(int number, int index) {
     if (_answerList.contains(number) && _answerList.indexOf(number) != index) {
       return true;
     }
@@ -13,7 +13,7 @@ class Answer {
     return false;
   }
 
-  bool isStrike(int number, int index) {
+  bool checkStrike(int number, int index) {
     if (_answerList.contains(number) && _answerList.indexOf(number) == index) {
       return true;
     }
