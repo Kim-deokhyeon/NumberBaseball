@@ -1,1 +1,2 @@
-final List<int> availableAnswers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const List<int> availableAnswers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const int maxInning = 9;
